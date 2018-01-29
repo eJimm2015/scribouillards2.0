@@ -1,0 +1,11 @@
+git status (tes modifs) 
+avec le github desktop (tu peux voir les changements) 
+
+si tu as ajouté des nouveaux fichiers dans ton repertoir sur ton pc en locale 
+	1. -> git status 
+	2. -> git add CHEMINDUFICHIER (tu charges ton fichier : "est prêt pour un commit" ) une sorte d'initialisation
+	3. -> git add -a (ça va ajouter tous les nouveaux fichiers) 
+	4. -> git commit -m "ton messsage" (c'est comme si tu prépares le chargement de tes fichiers vers la branche principale MASTER)
+	5. -> git push (tu vas fusionner ton repo locale vers la branche MASTER)
+
+test !

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+	  <!-- Standard Meta -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+  <!-- Site Properties -->
+  <title>Liste des thèmes</title>
+  <link rel="stylesheet" type="text/css" href="assets/semantic.css">
+  <script type="text/javascript" src="assets/jquery.js"></script>
+  <script type="text/javascript" src="assets/semantic.js"></script>
+</head>
+<body>
+<div class="ui middle aligned segment container">
+	<table class="ui single line table">
+  <thead>
+  	<th>Catégorie</th>
+  	<th>Auteur</th>
+  	<th>Thème</th>
+  	<th>Date de parution</th>
+  	<th></th>
+  </thead>
+  <tbody>
+    <tr>
+  		<td>
+  			<span class="ui green ribbon label">Environnement</span>
+  		</td>
+      <td>
+      	   <img class="ui avatar image" src="assets/avatars/man.png">
+      Daniel Louise
+      </td>
+      <td>Save the Elephants</td>
+      <td>September 14, 2013</td>
+      <td class="right aligned">
+      	      <div class="ui button">Consulter</div>
+      </td>
+    </tr>
+    <tr>
+      	<td>
+    		<span class="ui red ribbon label">Pollution</span>  
+  		</td>
+      <td>
+      	      	   <img class="ui avatar image" src="assets/avatars/man.png">
+      James Harrington
+      </td>
+      <td>Making a software in only 1 week</td>
+      <td>January 11, 2014</td>
+      <td class="right aligned">
+      	      <div class="ui button">Consulter</div>
+      </td>
+    </tr>
+    <tr>
+      		<td>
+  			<span class="ui green ribbon label">Environnement</span>
+  		</td>
+      <td>
+      	<img class="ui avatar image" src="assets/avatars/woman.png">
+      	Momo Passoubady
+      </td>
+      <td>Life on Mars ?</td>
+      <td>May 11, 2014</td>
+      <td class="right aligned">
+      	      <div class="ui button">Consulter</div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<div class="ui basic button" id="show">Ajouter</div>
+<!-- Modal d'ajout de thème  -->
+<div class="ui modal">
+  <i class="close icon"></i>
+  <div class="header">
+    Ajouter un thème
+  </div>
+  <div class="content">
+    <div class="description">
+    <form class="ui large form" method="GET">
+  			<div class="field">
+			<div class="ui left icon input">
+            <input type="text" name="titre" placeholder="Renseignez un titre ...">
+          </div>
+			</div>
+        <div class="field">
+          <div class="ui left icon input">
+            <textarea name="description" placeholder="Renseignez une description..."></textarea>
+          </div>
+        </div>
+    <div class="ui divider"></div>
+    <div class="ui right aligned container">
+    <button class="ui positive right labeled icon submit button">
+      Ajouter
+      <i class="checkmark icon"></i>
+    </button>
+    </div>
+    </form>
+  </div>
+</div>
+</div>
+<script type="text/javascript">
+	$('#show').on('click',function() {
+		$('.ui.modal').modal('show');
+	});
+</script>
+</body>
+</html>
