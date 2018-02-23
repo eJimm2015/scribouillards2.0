@@ -22,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.parisdescartes.scrib.entities.User;
 import com.parisdescartes.scrib.service.BlogService;
+import com.parisdescartes.scrib.service.EmailService;
 import com.parisdescartes.scrib.tools.Constante;
 import com.parisdescartes.scrib.validators.UserInscriptionValidator;
 
@@ -41,6 +42,9 @@ public class Signup {
 	
 	@Autowired
 	private UserInscriptionValidator userInscriptionValidator;
+	
+	@Autowired
+	private EmailService emailService;
 	
 	@GetMapping("/signup")
 	public ModelAndView signup() {
@@ -64,6 +68,7 @@ public class Signup {
 		session.setAttribute(Constante.USER, user);
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
+		emailService.sendSimpleMail(user.getEmail(), "Inscription", "Bravo "+user.getPrenom()+" "+user.getNom());
 		return Constante.ACCUEIL;
 	}
 
