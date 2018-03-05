@@ -5,6 +5,7 @@ import java.util.List;
 import com.parisdescartes.scrib.entities.Article;
 import com.parisdescartes.scrib.entities.Theme;
 import com.parisdescartes.scrib.entities.User;
+import com.parisdescartes.scrib.entities.VerificationToken;
 import com.parisdescartes.scrib.exceptions.*;
 
 public interface BlogService {
@@ -18,5 +19,9 @@ public interface BlogService {
 	void addArticle(Article article);
 	int evaluerArticle(int userId, int aId, int val) throws ArticleInexistantException, DejaVoteException;
 	void supprimerArticle(int id);
-	void supprimerTheme(int id);	
+	void supprimerTheme(int id);
+	void addVerificationToken(VerificationToken token);
+	VerificationToken findVerificationTokenByUser(User user);
+	VerificationToken findVerificationToken(String token);
+	void enableUser(int id);
 }

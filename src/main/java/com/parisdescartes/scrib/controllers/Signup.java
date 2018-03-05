@@ -1,13 +1,16 @@
 package com.parisdescartes.scrib.controllers;
 
+import java.time.Instant;
 import java.util.Collections;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.apache.tomcat.util.bcel.Const;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -21,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.parisdescartes.scrib.entities.User;
+import com.parisdescartes.scrib.entities.VerificationToken;
+import com.parisdescartes.scrib.events.OnRegistrationCompleteEvent;
 import com.parisdescartes.scrib.service.BlogService;
 import com.parisdescartes.scrib.service.EmailService;
 import com.parisdescartes.scrib.tools.Constante;
@@ -42,9 +47,9 @@ public class Signup {
 	
 	@Autowired
 	private UserInscriptionValidator userInscriptionValidator;
-	
+		
 	@Autowired
-	private EmailService emailService;
+	private ApplicationEventPublisher publisher;
 	
 	@GetMapping("/signup")
 	public ModelAndView signup() {
@@ -68,8 +73,20 @@ public class Signup {
 		session.setAttribute(Constante.USER, user);
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
-		emailService.sendSimpleMail(user.getEmail(), "Inscription", "Bravo "+user.getPrenom()+" "+user.getNom());
+		publisher.publishEvent(new OnRegistrationCompleteEvent(user, request.getContextPath()));
 		return Constante.ACCUEIL;
 	}
 
+	@GetMapping(value="/signupConfirm")
+	public String confirmSignUp(@RequestParam("token") String token) {
+		VerificationToken tk = blogService.findVerificationToken(token);
+		if(tk == null) return "TOKEN INEXISTANT";
+		if(tk.getExpiryDate().getTime() - Instant.now().toEpochMilli() <=0) return "TOKEN EXPIRE";
+		User user = tk.getOwner();
+		user.setEnabled(true);
+		blogService.enableUser(user.getId());
+		return "OK";
+		
+	}
+	
 }

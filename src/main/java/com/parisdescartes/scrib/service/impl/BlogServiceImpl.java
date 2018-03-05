@@ -12,10 +12,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.parisdescartes.scrib.entities.Article;
 import com.parisdescartes.scrib.entities.Theme;
 import com.parisdescartes.scrib.entities.User;
+import com.parisdescartes.scrib.entities.VerificationToken;
 import com.parisdescartes.scrib.exceptions.*;
 import com.parisdescartes.scrib.repositories.ArticleRepository;
 import com.parisdescartes.scrib.repositories.ThemeRepository;
 import com.parisdescartes.scrib.repositories.UserRepository;
+import com.parisdescartes.scrib.repositories.VerificationTokenRepository;
 import com.parisdescartes.scrib.service.BlogService;
 
 @Service
@@ -29,6 +31,9 @@ public class BlogServiceImpl implements BlogService {
 	
 	@Autowired
 	ArticleRepository articleRepository;
+	
+	@Autowired
+	VerificationTokenRepository tokenRepository;
 	
 	@Autowired
 	PasswordEncoder passwordEncoder;
@@ -106,6 +111,28 @@ public class BlogServiceImpl implements BlogService {
 	@Override
 	public void supprimerTheme(int id) {
 		themeRepository.delete(id);
+	}
+
+	@Override
+	public void addVerificationToken(VerificationToken token) {
+		tokenRepository.save(token);
+		
+	}
+
+	@Override
+	public VerificationToken findVerificationTokenByUser(User user) {
+		return tokenRepository.findByOwner(user);
+	}
+
+	@Override
+	public VerificationToken findVerificationToken(String token) {
+		return tokenRepository.findByToken(token);
+	}
+
+	@Override
+	public void enableUser(int id) {
+		User user = findUserByID(id);
+		user.setEnabled(true);
 	}
 
 
